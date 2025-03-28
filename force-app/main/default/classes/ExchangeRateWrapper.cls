@@ -67,10 +67,6 @@ public class ExchangeRateWrapper {
      * @return ExchangeRateWrapper The parsed wrapper instance
      */
     public static ExchangeRateWrapper parse(String jsonResponse) {
-        // TODO: Implement the method to parse the JSON response
-        // Use JSON.deserialize or JSON.deserializeStrict to parse the response
-        ExchangeRateWrapper myParsedData = (ExchangeRateWrapper) JSON.deserialize(jsonResponse, ExchangeRateWrapper.class);
-        // return null; // Replace with actual implementation
-        return myParsedData;
+        return (ExchangeRateWrapper) JSON.deserialize(jsonResponse, ExchangeRateWrapper.class);
     }
 }

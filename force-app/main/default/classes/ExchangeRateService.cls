@@ -25,7 +25,6 @@ public class ExchangeRateService {
             return newExchangeRates;
         } else {
             throw new CalloutException('Callout failed with Error status: ' + response.getStatusCode());
-            // return null; // Replace with actual implementation
         }
     }
     
@@ -35,7 +34,6 @@ public class ExchangeRateService {
      * @return List<Exchange_Rate__c> The list of records created or updated
      */
     public static List<Exchange_Rate__c> processRates(ExchangeRateWrapper rateData) {
-        // TODO: Implement the method to process rates and create/update records
         List<Exchange_Rate__c> ratesToUpdate = rateData.toExchangeRates();
         if (ratesToUpdate.isEmpty()) {
             System.debug('no rates to update');
@@ -43,7 +41,6 @@ public class ExchangeRateService {
         }
         upsert ratesToUpdate External_Id__c;
         return rateData.toExchangeRates();
-        // return null; // Replace with actual implementation
     }
     
     /**
@@ -51,11 +48,9 @@ public class ExchangeRateService {
      * @return List<Exchange_Rate__c> The list of records created or updated
      */
     public static List<Exchange_Rate__c> updateExchangeRates() {
-        // TODO: Implement the method to get and process rates
-        // 1. Call getLatestRates to retrieve the data
-        // 2. Call processRates to create/update records
-        // 3. Return the processed records
+        ExchangeRateWrapper latestRates = getLatestRates();
+        List<Exchange_Rate__c> updatedRates = processRates(latestRates);
         
-        return null; // Replace with actual implementation
+        return updatedRates;
     }
 }
