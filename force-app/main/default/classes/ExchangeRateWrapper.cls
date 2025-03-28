@@ -54,6 +54,8 @@ public class ExchangeRateWrapper {
             record.Base_Currency__c = this.base_code;
             record.Rate__c = converstion_rate;
             record.Target_Currency__c = key;
+            record.Last_Updated__c = System.now();
+            record.External_id__c = this.base_code + '_' + key;
             records.add(record);
         }
         return records;
