@@ -18,18 +18,19 @@ public class ExchangeRateWrapper {
     // }
     
     // Add properties for base currency
-    // public String base_code;
+    public String base_code;
     
     // Add property for time last updated
-    // public String time_last_update_unix;
+    public String time_last_update_unix;
     
     // Add property for rates (using a map)
-    // public Map<String, Decimal> conversion_rates;
+    public Map<String, Decimal> conversion_rates;
 
     // Add property for external ID
     // This is an ID you will generate to uniquely identify the exchange rate record
     // This does not come from the API response
     // public String externalId; baseCurrency + '_' + targetCurrency
+    public String externalId;
     
     /**
      * @description Converts the wrapper data to a list of Exchange_Rate__c records
@@ -41,8 +42,23 @@ public class ExchangeRateWrapper {
         // 2. Iterate through the rates map
         // 3. For each rate, create an Exchange_Rate__c record
         // 4. Return the list of records
-        
-        return null; // Replace with actual implementation
+
+        if (this.conversion_rates == null || this.conversion_rates.isEmpty()) {
+            return null;
+        }
+
+        List<Exchange_Rate__c> records = new List<Exchange_Rate__c>();
+        for(String key : this.conversion_rates.keySet()) {
+            Decimal converstion_rate = conversion_rates.get(key);
+            Exchange_Rate__c record = new Exchange_Rate__c();
+            record.Base_Currency__c = this.base_code;
+            record.Rate__c = converstion_rate;
+            record.Target_Currency__c = key;
+            record.Last_Updated__c = System.now();
+            record.External_id__c = this.base_code + '_' + key;
+            records.add(record);
+        }
+        return records;
     }
     
     /**
@@ -51,9 +67,6 @@ public class ExchangeRateWrapper {
      * @return ExchangeRateWrapper The parsed wrapper instance
      */
     public static ExchangeRateWrapper parse(String jsonResponse) {
-        // TODO: Implement the method to parse the JSON response
-        // Use JSON.deserialize or JSON.deserializeStrict to parse the response
-        
-        return null; // Replace with actual implementation
+        return (ExchangeRateWrapper) JSON.deserialize(jsonResponse, ExchangeRateWrapper.class);
     }
 }
